@@ -1,0 +1,14 @@
+{
+  "project_name": "azure-retail-data-engineering",
+  "environment": "dev",
+  "storage": {
+    "input_path": "abfss://<container>@<storage-account>.dfs.core.windows.net/input/",
+    "bronze_path": "abfss://<container>@<storage-account>.dfs.core.windows.net/bronze/",
+    "silver_path": "abfss://<container>@<storage-account>.dfs.core.windows.net/silver/",
+    "gold_path": "abfss://<container>@<storage-account>.dfs.core.windows.net/gold/"
+  },
+  "spark": {
+    "format": "delta",
+    "optimize_write": true
+  }
+}
