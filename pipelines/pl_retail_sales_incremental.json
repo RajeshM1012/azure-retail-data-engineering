@@ -1,0 +1,39 @@
+{
+  "name": "pl_retail_sales_incremental",
+  "properties": {
+    "description": "ADF orchestration template for incremental retail sales processing.",
+    "parameters": {
+      "watermarkDate": {
+        "type": "String",
+        "defaultValue": "2026-01-12"
+      },
+      "environment": {
+        "type": "String",
+        "defaultValue": "dev"
+      }
+    },
+    "activities": [
+      {
+        "name": "GetLastWatermark",
+        "type": "Lookup",
+        "description": "Read last successful watermark from a control table."
+      },
+      {
+        "name": "RunDatabricksIncrementalLoad",
+        "type": "DatabricksNotebook",
+        "dependsOn": [
+          "GetLastWatermark"
+        ],
+        "description": "Run notebook 04_incremental_sales_load with the watermark."
+      },
+      {
+        "name": "UpdateWatermark",
+        "type": "SqlServerStoredProcedure",
+        "dependsOn": [
+          "RunDatabricksIncrementalLoad"
+        ],
+        "description": "Update watermark after successful processing."
+      }
+    ]
+  }
+}
